@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>InternShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🛡️ InternShield</h1>
+        <p class="subtitle">Fake Internship Detector</p>
+
+        <form method="POST">
+
+            <textarea
+                name="internship_text"
+                placeholder="Paste the internship offer, message or job description here..."
+                required></textarea>
+
+            <button type="submit">Analyze Internship</button>
+
+        </form>
+
+        {% if result %}
+
+        <div class="result">
+
+            <h2>Analysis Result</h2>
+
+            <h3>Risk Level: {{ result.risk }}</h3>
+
+            <p>Risk Score: {{ result.score }}/100</p>
+
+            {% if result.reasons %}
+
+            <h3>⚠️ Warning Indicators</h3>
+
+            <ul>
+                {% for reason in result.reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+
+            <p>✅ No major warning indicators detected.</p>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
