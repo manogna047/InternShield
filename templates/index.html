@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,176 +13,316 @@
 
 <body>
 
-    <header class="navbar">
-        <div class="logo">
-            🛡️ InternShield
+<header class="navbar">
+
+    <div class="logo">
+        🛡️ InternShield
+    </div>
+
+    <div class="nav-tag">
+        Student Safety Platform
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="badge">
+            🛡️ INTERNSHIP SAFETY
         </div>
 
-        <div class="nav-tag">
-            Student Safety Platform
-        </div>
-    </header>
+        <h1>
+            Check Before You
+            <span>Apply.</span>
+        </h1>
+
+        <p>
+            Analyze internship offers and websites to identify
+            potential warning signs before sharing your information
+            or making payments.
+        </p>
+
+    </section>
 
 
-    <main>
+    <!-- ANALYZER -->
 
-        <section class="hero">
+    <section class="analyzer">
 
-            <div class="badge">
-                🛡️ INTERNSHIP SAFETY
-            </div>
+        <div class="card-header">
 
-            <h1>
-                Check Before You
-                <span>Apply.</span>
-            </h1>
+            <h2>🔍 Internship Analyzer</h2>
 
             <p>
-                Analyze internship offers and identify suspicious
-                warning signs before sharing your information or
-                making payments.
+                Paste the internship message and optionally provide
+                its website URL.
             </p>
 
-        </section>
+        </div>
 
 
-        <section class="analyzer">
+        <form method="POST">
 
-            <div class="card-header">
-                <div>
-                    <h2>🔍 Internship Analyzer</h2>
-                    <p>
-                        Paste an internship message, email or job
-                        description below.
-                    </p>
-                </div>
-            </div>
+            <label>
+                Internship Message / Job Description
+            </label>
 
-
-            <form method="POST">
-
-                <textarea
-                    name="internship_text"
-                    placeholder="Paste the internship offer here...
+            <textarea
+                name="internship_text"
+                placeholder="Paste the internship offer, email or job description here...
 
 Example:
-Congratulations! You have been selected...
+Congratulations! You have been selected for an internship...
 Pay a registration fee to confirm your position..."
-                    required></textarea>
-
-                <button type="submit">
-                    Analyze Internship →
-                </button>
-
-            </form>
-
-        </section>
+                required></textarea>
 
 
-        {% if result %}
+            <label>
+                Internship Website URL
+                <span class="optional">(Optional)</span>
+            </label>
 
-        <section class="result-card">
-
-            <div class="result-top">
-
-                <div>
-                    <p class="result-label">RISK ASSESSMENT</p>
-
-                    <h2>
-                        {{ result.icon }}
-                        {{ result.risk }} RISK
-                    </h2>
-                </div>
-
-                <div class="score">
-                    <strong>{{ result.score }}</strong>
-                    <span>/100</span>
-                </div>
-
-            </div>
+            <input
+                type="text"
+                name="website_url"
+                placeholder="https://example.com">
 
 
-            <div class="message">
-                {{ result.message }}
-            </div>
+            <button type="submit">
+                Analyze Internship →
+            </button>
+
+        </form>
+
+    </section>
 
 
-            {% if result.reasons %}
+    <!-- RESULT -->
 
-            <h3>⚠️ Warning Indicators</h3>
+    {% if result %}
 
-            <div class="warnings">
+    <section class="result-card">
 
-                {% for reason in result.reasons %}
+        <div class="result-top">
 
-                <div class="warning">
-                    <span>⚠️</span>
-                    {{ reason }}
-                </div>
+            <div>
 
-                {% endfor %}
+                <p class="result-label">
+                    RISK ASSESSMENT
+                </p>
+
+                <h2>
+                    {{ result.icon }}
+                    {{ result.risk }} RISK
+                </h2>
 
             </div>
 
-            {% else %}
 
-            <div class="safe-message">
-                ✅ No major warning indicators were detected.
+            <div class="score">
+
+                <strong>
+                    {{ result.score }}
+                </strong>
+
+                <span>
+                    /100
+                </span>
+
             </div>
 
-            {% endif %}
+        </div>
 
 
-            <div class="notice">
-                <strong>Important:</strong>
-                This assessment identifies potential warning signs.
-                It does not confirm whether an internship is
-                genuine or fraudulent. Always verify the company
-                independently.
+        <div class="message">
+            {{ result.message }}
+        </div>
+        <div class="report-section">
+
+    <h3>🔗 URL Analysis</h3>
+
+    <div class="report-box">
+        {{ result.url_info }}
+    </div>
+
+</div>
+
+
+<div class="report-section">
+
+    <h3>🛡️ Safety Recommendations</h3>
+
+    <div class="recommendations">
+
+        {% for item in result.checklist %}
+
+        <div class="recommendation">
+            ✓ {{ item }}
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+        {% if result.reasons %}
+
+        <h3>
+            ⚠️ Warning Indicators
+        </h3>
+
+
+        <div class="warnings">
+
+            {% for reason in result.reasons %}
+
+            <div class="warning">
+
+                <span>⚠️</span>
+
+                {{ reason }}
+
             </div>
 
-        </section>
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="safe-message">
+
+            ✅ No major warning indicators were detected.
+
+        </div>
 
         {% endif %}
 
 
-        <section class="features">
+        <!-- VERIFICATION CHECKLIST -->
 
-            <div class="feature">
-                <div class="feature-icon">🔎</div>
-                <h3>Detect Warning Signs</h3>
-                <p>
-                    Identify suspicious phrases and common
-                    internship scam indicators.
-                </p>
+        <div class="checklist">
+
+            <h3>
+                🛡️ Verification Checklist
+            </h3>
+
+            <div class="check-item">
+                ✓ Verify the company through its official website.
             </div>
 
-            <div class="feature">
-                <div class="feature-icon">📊</div>
-                <h3>Risk Assessment</h3>
-                <p>
-                    Get a simple risk score based on detected
-                    warning indicators.
-                </p>
+            <div class="check-item">
+                ✓ Verify the recruiter's identity and contact details.
             </div>
 
-            <div class="feature">
-                <div class="feature-icon">🛡️</div>
-                <h3>Stay Protected</h3>
-                <p>
-                    Learn what to verify before accepting
-                    an internship.
-                </p>
+            <div class="check-item">
+                ✓ Check whether the internship requires payment.
             </div>
 
-        </section>
+            <div class="check-item">
+                ✓ Avoid sharing sensitive personal information unnecessarily.
+            </div>
 
-    </main>
+            <div class="check-item">
+                ✓ Look for independent information about the organization.
+            </div>
+
+        </div>
 
 
-    <footer>
-        <p>© 2026 InternShield • Built for Student Safety</p>
-    </footer>
+        <div class="notice">
+
+            <strong>Important:</strong>
+
+            This tool identifies potential warning signs.
+            It does not confirm whether an internship is genuine
+            or fraudulent. Always verify the organization
+            independently before applying.
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- FEATURES -->
+
+    <section class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔎
+            </div>
+
+            <h3>
+                Detect Warning Signs
+            </h3>
+
+            <p>
+                Identify suspicious phrases and common
+                internship scam indicators.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🌐
+            </div>
+
+            <h3>
+                URL Analysis
+            </h3>
+
+            <p>
+                Check internship website URLs for
+                potentially suspicious patterns.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Stay Protected
+            </h3>
+
+            <p>
+                Use the verification checklist before
+                accepting an internship.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 InternShield • Built for Student Safety
+    </p>
+
+</footer>
+
 
 </body>
+
 </html>

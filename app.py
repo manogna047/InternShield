@@ -9,8 +9,13 @@ def home():
     result = None
 
     if request.method == "POST":
-        text = request.form.get("internship_text", "")
-        result = analyze_internship(text)
+        internship_text = request.form.get("internship_text", "")
+        website_url = request.form.get("website_url", "")
+
+        result = analyze_internship(
+            internship_text,
+            website_url
+        )
 
     return render_template("index.html", result=result)
 
